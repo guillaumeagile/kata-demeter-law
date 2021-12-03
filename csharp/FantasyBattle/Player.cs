@@ -24,20 +24,22 @@ namespace FantasyBattle
         }
 
         private int GetSoak(Target other, int totalDamage) {
-            int soak = 0;
-            if (other is Player) {
+            if (other is Player)
+            {
                 // TODO: Not implemented yet
                 //  Add friendly fire
-                soak = totalDamage;
-            } else if (other is SimpleEnemy simpleEnemy) {
-                soak = (int)Math.Round(
+                return totalDamage;
+            }
+            else if (other is SimpleEnemy simpleEnemy)
+            {
+                return (int)Math.Round(
                     simpleEnemy.Armor.DamageSoak *
                     (
                         simpleEnemy.Buffs.Select(x => x.SoakModifier).Sum() + 1
                     ), 0
                 );
             }
-            return soak;
+            return 0;
         }
 
         private float CalculateDamageModifier() {
