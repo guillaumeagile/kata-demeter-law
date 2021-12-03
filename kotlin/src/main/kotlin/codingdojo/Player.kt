@@ -3,7 +3,7 @@ package codingdojo
 import kotlin.math.max
 import kotlin.math.roundToInt
 
-class Player(private val inventory: Inventory, private val stats: Stats): Target() {
+class Player(private val inventory: Inventory, private val stats: Stats) : Target() {
 
     private val damageModifier: Float
         get() {
@@ -15,11 +15,11 @@ class Player(private val inventory: Inventory, private val stats: Stats): Target
             val chest = equipment.chest
             val strengthModifier = stats.strength * 0.1f
             return strengthModifier +
-                    leftHand.damageModifier +
-                    rightHand.damageModifier +
-                    head.damageModifier +
-                    feet.damageModifier +
-                    chest.damageModifier
+                leftHand.damageModifier +
+                rightHand.damageModifier +
+                head.damageModifier +
+                feet.damageModifier +
+                chest.damageModifier
         }
 
     private val baseDamage: Int
@@ -31,10 +31,10 @@ class Player(private val inventory: Inventory, private val stats: Stats): Target
             val feet = equipment.feet
             val chest = equipment.chest
             return leftHand.baseDamage +
-                    rightHand.baseDamage +
-                    head.baseDamage +
-                    feet.baseDamage +
-                    chest.baseDamage
+                rightHand.baseDamage +
+                head.baseDamage +
+                feet.baseDamage +
+                chest.baseDamage
         }
 
     fun calculateDamage(other: Target): Damage {
@@ -53,12 +53,15 @@ class Player(private val inventory: Inventory, private val stats: Stats): Target
             soak = totalDamage
         } else if (other is SimpleEnemy) {
             val simpleEnemy = other
-            soak = (simpleEnemy.armor.damageSoak *
-                    (simpleEnemy.buffs
-                        .stream()
-                        .mapToDouble { it.soakModifier().toDouble() }
-                        .sum()) + 1f
-                    ).roundToInt()
+            soak = (
+                simpleEnemy.armor.damageSoak *
+                    (
+                        simpleEnemy.buffs
+                            .stream()
+                            .mapToDouble { it.soakModifier().toDouble() }
+                            .sum()
+                        ) + 1f
+                ).roundToInt()
         }
         return soak
     }

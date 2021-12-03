@@ -21,15 +21,41 @@ class PlayerTest {
     }
 
     // choose this one if you are not familiar with mocks
-    @Ignore("Test is not finished yet")
+    // @Ignore("Test is not finished yet")
     @Test
     fun damageCalculations() {
-        val inventory = Inventory(null !!)
+        val excalibur = BasicItem("", 10, 1.0f)
+        val shield = BasicItem("", 0, 1.4f)
+        val boots = BasicItem("", 0, 0.1f)
+        val helmet = BasicItem("", 0, 1.2f)
+        val plate = BasicItem("", 0, 1.4f)
+        val equipment = Equipment(leftHand = excalibur, rightHand = shield, head = boots, feet = helmet, chest = plate)
+        val inventory = Inventory(equipment)
         val stats = Stats(0)
-        val target = SimpleEnemy(null !!, null !!)
+        val armor1 = SimpleArmor(5)
+        val buffs = listOf<Buff>(BasicBuff(1f, 1f))
+        val target = SimpleEnemy(armor = armor1, buffs = buffs)
 
         val damage = Player(inventory, stats).calculateDamage(target)
 
-        assertEquals(10, damage.amount)
+        assertEquals(45, damage.amount)
+    }
+
+    @Test
+    fun damageCalculations2() {
+        val excalibur = BasicItem("", 10, 1.0f)
+        val shield = BasicItem("", 0, 1.4f)
+        val boots = BasicItem("", 0, 0.1f)
+        val helmet = BasicItem("", 0, 1.2f)
+        val plate = BasicItem("", 0, 1.4f)
+        val equipment = Equipment(leftHand = excalibur, rightHand = shield, head = boots, feet = helmet, chest = plate)
+        val inventory = Inventory(equipment)
+        val stats = Stats(0)
+
+        val target = Player(inventory, stats)
+
+        val damage = target.calculateDamage(target)
+
+        assertEquals(0, damage.amount)
     }
 }
